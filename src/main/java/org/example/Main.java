@@ -1,9 +1,9 @@
 package org.example;
 
-import org.example.entity.Guitare;
-import org.example.entity.Guitariste;
-import org.example.entity.Musicien;
+import configuration.ApplicationConfiguration;
+import org.example.entity.*;
 import org.example.factory.MusicienFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -15,6 +15,19 @@ public class Main {
         injectionDependance();
         System.out.println("====== utilisation d'une application context en xml ====");
         withApplicationContext();
+        System.out.println("==== Utilisation d'une cleasse de configuration======");
+        withACinClasse();
+    }
+
+    private static void withACinClasse() {
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
+        Instrument laCornemuse = context.getBean(Cornemuse.class);
+        System.out.println(laCornemuse.toString());
+        Musicien leMusicien = context.getBean(Sonneur.class);
+        leMusicien.jouer();
+
+
+        context.close();
     }
 
     private static void withApplicationContext() {
